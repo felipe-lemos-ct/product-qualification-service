@@ -1,0 +1,47 @@
+{
+  "servicePoints": [
+    {
+      "servicePointId": "1014-41213927-1",
+      "address": {
+        "addressId": "101441213927.41314774",
+        "locationId": "101441213927",
+        "address": "Winthersgate",
+        "houseNumber": 5,
+        "houseLetter": "",
+        "postalCode": "3921",
+        "postLocation": "Porsgrunn",
+        "municipalityNr": "3806",
+        "unitNr": "H0101",
+        "gardsNr": 200,
+        "bruksNr": 3285,
+        "type": "DWELLING_UNIT",
+        "addressSource": "KAPANY",
+        "country": "NO"
+      },
+      "billingAccount": [],
+      "opennetDk": null,
+      "kapany": {
+        "kapanyServicePointUrl": "/#build/details/servicepoint/{E5B399AB-F87B-4533-A530-A29960086845}",
+        "connectedToNodeRoomPort": false,
+        "connectedHomeCentral": false,
+        "connectedPort": false,
+        "fiberStatus": "InfrastructureWall",
+        "status": "UNDER CONSTRUCTION",
+        "project": {
+          "name": "Fortetting - Porsgrunn - VF-sundjordet1",
+          "number": "30098",
+          "type": "DensificationType",
+          "status": "DevelopmentProgress",
+          "saleStatus": "SaleOpen",
+          "kapanyServicePointUrl": null
+        },
+        "type": "Fiber"
+      },
+      "salesDescription": "We are currently building in your area",
+      "description": null,
+      "orderable": true,
+      "tenantId": "1014",
+      "tenantName": ""
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "servicePoints": [
+    {
+      "servicePointId": "1014-41212756-1",
+      "address": {
+        "addressId": "101441212756.41314809",
+        "locationId": "101441212756",
+        "address": "Tordenskioldsgate",
+        "houseNumber": 19,
+        "houseLetter": "",
+        "postalCode": "3921",
+        "postLocation": "Porsgrunn",
+        "municipalityNr": "3806",
+        "unitNr": "H0101",
+        "gardsNr": 200,
+        "bruksNr": 3012,
+        "type": "DWELLING_UNIT",
+        "addressSource": "KAPANY",
+        "country": "NO"
+      },
+      "billingAccount": [],
+      "opennetDk": null,
+      "kapany": {
+        "kapanyServicePointUrl": "/#build/details/servicepoint/{B0CD04F5-7222-49F1-9E5A-5B1BE5E48A9F}",
+        "connectedToNodeRoomPort": true,
+        "connectedHomeCentral": false,
+        "connectedPort": true,
+        "fiberStatus": "InfrastructureHouseReady",
+        "status": "ACTIVE",
+        "project": {
+          "name": "Fortetting - Porsgrunn - VF-sundjordet1",
+          "number": "30098",
+          "type": "DensificationType",
+          "status": "DevelopmentProgress",
+          "saleStatus": "SaleOpen",
+          "kapanyServicePointUrl": null
+        },
+        "type": "Fiber"
+      },
+      "salesDescription": "A gateway must be installed before services can be activated",
+      "description": null,
+      "orderable": true,
+      "tenantId": "1014",
+      "tenantName": ""
+    }
+  ]
+}

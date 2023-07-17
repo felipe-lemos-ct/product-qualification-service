@@ -1,0 +1,47 @@
+{
+  "servicePoints": [
+    {
+      "servicePointId": "1014-41212753-1",
+      "address": {
+        "addressId": "101441212753.41314804",
+        "locationId": "101441212753",
+        "address": "Tordenskioldsgate",
+        "houseNumber": 16,
+        "houseLetter": "",
+        "postalCode": "3921",
+        "postLocation": "Porsgrunn",
+        "municipalityNr": "3806",
+        "unitNr": "H0101",
+        "gardsNr": 200,
+        "bruksNr": 3009,
+        "type": "DWELLING_UNIT",
+        "addressSource": "KAPANY",
+        "country": "NO"
+      },
+      "billingAccount": [],
+      "opennetDk": null,
+      "kapany": {
+        "kapanyServicePointUrl": "/#build/details/servicepoint/{CD49E9AC-8EC8-4C66-821F-BAF7F6390022}",
+        "connectedToNodeRoomPort": true,
+        "connectedHomeCentral": true,
+        "connectedPort": true,
+        "fiberStatus": "InfrastructureHouseReady",
+        "status": "ACTIVE",
+        "project": {
+          "name": "Villa - Porsgrunn - Huken/Crøgerlia/Kirkehaugen",
+          "number": "10578",
+          "type": "GreenfieldType",
+          "status": "DevelopmentCompleted",
+          "saleStatus": "SaleClosed",
+          "kapanyServicePointUrl": null
+        },
+        "type": "Fiber"
+      },
+      "salesDescription": "We have a gateway at the premise ready for services",
+      "description": null,
+      "orderable": true,
+      "tenantId": "1014",
+      "tenantName": ""
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "servicePointId": "1014-41212756-1",
+  "servicePointSource": "KAPANY",
+  "leadTime": 0,
+  "appointmentNeeded": false,
+  "broadband": {
+    "upSpeed": 100,
+    "downSpeed": 100,
+    "gigabitUpgrade": {
+      "upSpeed": 1000,
+      "downSpeed": 1000,
+      "hgwUpgrade": false,
+      "accessNodePortChange": true,
+      "accessNodeUpgrade": false
+    }
+  },
+  "voip": {
+    "potsSupport": false
+  },
+  "iptv": {
+    "platform": "HUAWEI"
+  },
+  "informationTexts": [
+    "VOIP Terminal Adaptor needed: Yes",
+    "Max bandwidth: 100/100 Mbit",
+    "A port switch is required to move from fast to gigabit."
+  ],
+  "tenantId": "1014",
+  "capability": {
+    "altibox": {
+      "infrastructureType": "Fiber",
+      "equipmentDetails": {}
+    }
+  },
+  "tenantName": ""
+}

@@ -1,0 +1,33 @@
+{
+  "addresses": [
+    {
+      "addressId": "41212756",
+      "locationId": "41212756",
+      "address": "Tordenskioldsgate",
+      "houseNumber": 19,
+      "postalCode": "3921",
+      "postLocation": "PORSGRUNN",
+      "municipalityNr": "3806",
+      "gardsNr": 200,
+      "bruksNr": 3012,
+      "type": "LOCATION",
+      "dwellingUnitCount": 1,
+      "country": "NO"
+    },
+    {
+      "addressId": "41212756.41314809",
+      "locationId": "41212756",
+      "address": "Tordenskioldsgate",
+      "houseNumber": 19,
+      "postalCode": "3921",
+      "postLocation": "PORSGRUNN",
+      "municipalityNr": "3806",
+      "unitNr": "H0101",
+      "gardsNr": 200,
+      "bruksNr": 3012,
+      "type": "DWELLING_UNIT",
+      "dwellingUnitCount": 0,
+      "country": "NO"
+    }
+  ]
+}

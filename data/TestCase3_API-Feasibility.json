@@ -1,0 +1,35 @@
+{
+  "servicePointId": "1014-41212753-1",
+  "servicePointSource": "KAPANY",
+  "leadTime": 0,
+  "appointmentNeeded": false,
+  "broadband": {
+    "upSpeed": 1000,
+    "downSpeed": 1000
+  },
+  "voip": {
+    "potsSupport": true
+  },
+  "iptv": {
+    "platform": "HUAWEI"
+  },
+  "informationTexts": [
+    "Home gateway: EX5401",
+    "VOIP Terminal Adaptor needed: No",
+    "Max bandwidth: 1000/1000 Mbit"
+  ],
+  "tenantId": "1014",
+  "capability": {
+    "altibox": {
+      "infrastructureType": "Fiber",
+      "equipmentDetails": {
+        "hgw": {
+          "modelName": "EX5401",
+          "meshReady": true,
+          "replaceForMesh": false
+        }
+      }
+    }
+  },
+  "tenantName": ""
+}
