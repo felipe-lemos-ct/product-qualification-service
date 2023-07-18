@@ -1,8 +1,8 @@
 import { encode } from "js-base64";
 import fetch from "node-fetch";
 import { createGroup, createPromiseSessionCache } from "./group.js";
-import dotenv from "dotenv";
-dotenv.config();
+//import dotenv from "dotenv";
+//dotenv.config();
 
 const config = {
   projectKey: process.env.CTP_PROJECT_KEY,
