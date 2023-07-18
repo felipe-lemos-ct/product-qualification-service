@@ -42,10 +42,10 @@ app.post("/getproducts", (req, res) => {
             return "error";
           } else {
             let obj = JSON.parse(data);
-            console.log(obj.servicePoints[0].kapany.status);
-            if (obj.servicePoints[0].kapany.status === "ACTIVE") {
-              return true;
-            } else return false;
+            return {
+              status: obj.servicePoints[0].kapany.status,
+              message: obj.servicePoints[0].salesDescription,
+            };
           }
         }
       )
@@ -93,7 +93,11 @@ app.post("/getproducts", (req, res) => {
       }
     );
   } else {
-    res.send("Not available");
+    res.send({
+      isAvailable: false,
+      status: availability.servicePoints[0].kapany.status,
+      message: availability.servicePoints[0].salesDescription,
+    });
   }
 });
 app.listen(PORT, () => {
