@@ -52,7 +52,8 @@ app.post("/getproducts", (req, res) => {
     );
   }
 
-  //Here is Feasibility
+  let bandwidthArray = ["50", "100", "250", "500", "1000"];
+  let lookupArray = [];
 
   if (availability.servicePoints[0].kapany.status === "ACTIVE") {
     fs.readFile(
@@ -64,12 +65,26 @@ app.post("/getproducts", (req, res) => {
         }
         try {
           let object = JSON.parse(data);
+          lookupArray = bandwidthArray.filter(
+            (bdwidth) => bdwidth <= object.broadband.upSpeed
+          );
+
           fetchCt(
-            `product-projections/search?filter=variants.attributes.fiberBroadbandBandwidth.key:${object.broadband.upSpeed}`,
+            `product-projections/search?filter=variants.attributes.fiberBroadbandBandwidth.key:${lookupArray.toString()}`,
             { method: "GET" }
           )
             .then((response) => response.json())
             .then((response) => {
+              response.results.map((result) => {
+                if (result.variants.length > 0) {
+                  result.variants = result.variants.filter((variant) => {
+                    return (
+                      variant.attributes[0].value.key <=
+                      object.broadband.upSpeed
+                    );
+                  });
+                }
+              });
               res.send(response.results).status(200);
             });
         } catch (err) {
