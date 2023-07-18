@@ -3,7 +3,6 @@ import bodyParser from "body-parser";
 const app = express();
 import { fetchCt } from "./commercetools/auth.js";
 import fs from "fs";
-import fetch from "node-fetch";
 
 const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json());
@@ -12,14 +11,11 @@ app.get("/", (req, res) => {
   res.send("Welcome to subscription handler.");
 });
 
-//Get products after feasibility:
-
 app.post("/getproducts", (req, res) => {
   const { addressId } = req.body;
-  let upSpeed = 0;
   let testCaseNumber = 0;
+  let availability = "";
 
-  console.log(addressId);
   switch (addressId) {
     case 41213927:
       testCaseNumber = 1;
@@ -31,33 +27,31 @@ app.post("/getproducts", (req, res) => {
       testCaseNumber = 3;
       break;
     default:
-      console.log("Not found");
+      testCaseNumber = 0;
       break;
   }
-  //Here is Availability
 
-  let availability = JSON.parse(
-    fs.readFileSync(
-      `./data/TestCase${testCaseNumber}_API-Availability.json`,
-      (err, data) => {
-        if (err) {
-          console.log("Error reading file from disk:", err);
-          return "error";
-        } else {
-          let obj = JSON.parse(data);
-          console.log(obj.servicePoints[0].kapany.status);
-          if (obj.servicePoints[0].kapany.status === "ACTIVE") {
-            return true;
-          } else return false;
+  //Check availability for the desired
+  if (testCaseNumber != 0) {
+    availability = JSON.parse(
+      fs.readFileSync(
+        `./data/TestCase${testCaseNumber}_API-Availability.json`,
+        (err, data) => {
+          if (err) {
+            console.log("Error reading file from disk:", err);
+            return "error";
+          } else {
+            let obj = JSON.parse(data);
+            console.log(obj.servicePoints[0].kapany.status);
+            if (obj.servicePoints[0].kapany.status === "ACTIVE") {
+              return true;
+            } else return false;
+          }
         }
-      }
-    )
-  );
+      )
+    );
+  }
 
-  console.log(
-    "This is the availability: ",
-    availability.servicePoints[0].kapany.status
-  );
   //Here is Feasibility
 
   if (availability.servicePoints[0].kapany.status === "ACTIVE") {
