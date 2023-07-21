@@ -31,6 +31,7 @@ app.post("/getproducts", (req, res) => {
       break;
   }
 
+  console.log("I am running now!");
   //Check availability for the desired
   if (testCaseNumber != 0) {
     availability = JSON.parse(
@@ -85,7 +86,24 @@ app.post("/getproducts", (req, res) => {
                   });
                 }
               });
-              res.send(response.results).status(200);
+              let skus = [];
+              response.results.map((result) => {
+                skus.push(result.masterVariant.sku);
+                if (result.variants.length > 0) {
+                  result.variants.map((variant) => {
+                    skus.push(variant.sku);
+                  });
+                }
+              });
+              console.log("These are the skus:", skus);
+              res
+                .send({
+                  availableSkus: skus,
+                  isAvailable: true,
+                  status: availability.servicePoints[0].kapany.status,
+                  message: availability.servicePoints[0].salesDescription,
+                })
+                .status(200);
             });
         } catch (err) {
           console.log("Error parsing JSON string:", err);
