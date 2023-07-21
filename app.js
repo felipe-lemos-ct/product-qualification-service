@@ -44,6 +44,8 @@ app.post("/getproducts", (req, res) => {
           } else {
             let obj = JSON.parse(data);
             return {
+              availableSkus: [],
+              isAvailable: false,
               status: obj.servicePoints[0].kapany.status,
               message: obj.servicePoints[0].salesDescription,
             };
@@ -112,6 +114,7 @@ app.post("/getproducts", (req, res) => {
     );
   } else {
     res.send({
+      availableSkus: [],
       isAvailable: false,
       status: availability.servicePoints[0].kapany.status,
       message: availability.servicePoints[0].salesDescription,
