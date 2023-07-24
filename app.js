@@ -35,9 +35,7 @@ app.post("/address", (req, res) => {
   });
   tstReturn = tstReturn.filter((e) => e);
   if (tstReturn.length === 0) {
-    res.send({
-      message: "No address found",
-    });
+    res.send([]);
   } else {
     res.send(tstReturn);
   }
