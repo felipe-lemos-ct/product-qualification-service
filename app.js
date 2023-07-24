@@ -7,8 +7,34 @@ import fs from "fs";
 const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.send("Welcome to subscription handler.");
+app.get("/", (req, res) => {});
+
+app.post("/address", (req, res) => {
+  const { address, houseNumber, postalCode } = req.body;
+
+  let test = JSON.parse(
+    fs.readFileSync(`./data/addreses.json`, (err, data) => {
+      if (err) {
+        console.log("Error reading file from disk:", err);
+        return "error";
+      } else {
+        console.log("No error");
+      }
+    })
+  );
+
+  let tstReturn = test.addresses.map((addressEntry) => {
+    if (
+      addressEntry.address === address &&
+      addressEntry.houseNumber === houseNumber &&
+      addressEntry.postalCode === postalCode &&
+      addressEntry.type === "LOCATION"
+    ) {
+      return addressEntry.addressId;
+    }
+  });
+  tstReturn = tstReturn.filter((e) => e);
+  res.send(tstReturn);
 });
 
 app.post("/getproducts", (req, res) => {
@@ -17,13 +43,13 @@ app.post("/getproducts", (req, res) => {
   let availability = "";
 
   switch (addressId) {
-    case 41213927:
+    case "41213927":
       testCaseNumber = 1;
       break;
-    case 41212756:
+    case "41212756":
       testCaseNumber = 2;
       break;
-    case 41212753:
+    case "41212753":
       testCaseNumber = 3;
       break;
     default:
