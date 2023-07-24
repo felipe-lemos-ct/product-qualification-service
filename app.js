@@ -85,7 +85,14 @@ app.post("/getproducts", (req, res) => {
     );
   }
 
-  let bandwidthArray = ["50", "100", "250", "500", "1000"];
+  let bandwidthArray = [
+    "50",
+    "100",
+    "250",
+    "500",
+    "1000",
+    "999999999999999999",
+  ];
   let lookupArray = [];
 
   if (availability.servicePoints[0].kapany.status === "ACTIVE") {
