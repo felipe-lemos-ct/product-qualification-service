@@ -101,6 +101,8 @@ app.post("/getproducts", (req, res) => {
           lookupArray = bandwidthArray.filter(
             (bdwidth) => bdwidth > object.broadband.upSpeed
           );
+          console.log("This is the lookupArray:");
+          console.log(lookupArray);
 
           fetchCt(
             `product-projections/search?filter=variants.attributes.fiberBroadbandBandwidth.key:${lookupArray.toString()}`,
