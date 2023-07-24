@@ -74,7 +74,7 @@ app.post("/getproducts", (req, res) => {
           } else {
             let obj = JSON.parse(data);
             return {
-              unavailablesSkus: [],
+              availableSkus: [],
               isAvailable: false,
               status: obj.servicePoints[0].kapany.status,
               message: obj.servicePoints[0].salesDescription,
@@ -85,14 +85,7 @@ app.post("/getproducts", (req, res) => {
     );
   }
 
-  let bandwidthArray = [
-    "50",
-    "100",
-    "250",
-    "500",
-    "1000",
-    "999999999999999999",
-  ];
+  let bandwidthArray = ["50", "100", "250", "500", "1000"];
   let lookupArray = [];
 
   if (availability.servicePoints[0].kapany.status === "ACTIVE") {
@@ -106,10 +99,8 @@ app.post("/getproducts", (req, res) => {
         try {
           let object = JSON.parse(data);
           lookupArray = bandwidthArray.filter(
-            (bdwidth) => bdwidth > object.broadband.upSpeed
+            (bdwidth) => bdwidth <= object.broadband.upSpeed
           );
-          console.log("This is the lookupArray:");
-          console.log(lookupArray);
 
           fetchCt(
             `product-projections/search?filter=variants.attributes.fiberBroadbandBandwidth.key:${lookupArray.toString()}`,
@@ -117,20 +108,17 @@ app.post("/getproducts", (req, res) => {
           )
             .then((response) => response.json())
             .then((response) => {
-              console.log("Check response 1");
-              console.log(JSON.stringify(response));
               response.results.map((result) => {
                 if (result.variants.length > 0) {
                   result.variants = result.variants.filter((variant) => {
                     return (
-                      variant.attributes[0].value.key > object.broadband.upSpeed
+                      variant.attributes[0].value.key <=
+                      object.broadband.upSpeed
                     );
                   });
                 }
               });
               let skus = [];
-              console.log("Check response 2");
-              console.log(JSON.stringify(response));
               response.results.map((result) => {
                 skus.push(result.masterVariant.sku);
                 if (result.variants.length > 0) {
@@ -142,8 +130,7 @@ app.post("/getproducts", (req, res) => {
               console.log("These are the skus:", skus);
               res
                 .send({
-                  //availableSkus: skus,
-                  unavailablesSkus: skus,
+                  availableSkus: skus,
                   isAvailable: true,
                   status: availability.servicePoints[0].kapany.status,
                   message: availability.servicePoints[0].salesDescription,
@@ -157,7 +144,7 @@ app.post("/getproducts", (req, res) => {
     );
   } else {
     res.send({
-      unavailablesSkus: [],
+      availableSkus: [],
       isAvailable: false,
       status: availability.servicePoints[0].kapany.status,
       message: availability.servicePoints[0].salesDescription,
