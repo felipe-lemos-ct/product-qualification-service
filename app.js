@@ -118,6 +118,8 @@ app.post("/getproducts", (req, res) => {
                 }
               });
               let skus = [];
+              console.log("Check response");
+              console.log(response);
               response.results.map((result) => {
                 skus.push(result.masterVariant.sku);
                 if (result.variants.length > 0) {
