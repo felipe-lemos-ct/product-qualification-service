@@ -34,7 +34,13 @@ app.post("/address", (req, res) => {
     }
   });
   tstReturn = tstReturn.filter((e) => e);
-  res.send(tstReturn);
+  if (tstReturn.length === 0) {
+    res.send({
+      message: "No address found",
+    });
+  } else {
+    res.send(tstReturn);
+  }
 });
 
 app.post("/getproducts", (req, res) => {
