@@ -74,7 +74,7 @@ app.post("/getproducts", (req, res) => {
           } else {
             let obj = JSON.parse(data);
             return {
-              availableSkus: [],
+              unavailablesSkus: [],
               isAvailable: false,
               status: obj.servicePoints[0].kapany.status,
               message: obj.servicePoints[0].salesDescription,
@@ -99,7 +99,7 @@ app.post("/getproducts", (req, res) => {
         try {
           let object = JSON.parse(data);
           lookupArray = bandwidthArray.filter(
-            (bdwidth) => bdwidth <= object.broadband.upSpeed
+            (bdwidth) => bdwidth > object.broadband.upSpeed
           );
 
           fetchCt(
@@ -112,8 +112,7 @@ app.post("/getproducts", (req, res) => {
                 if (result.variants.length > 0) {
                   result.variants = result.variants.filter((variant) => {
                     return (
-                      variant.attributes[0].value.key <=
-                      object.broadband.upSpeed
+                      variant.attributes[0].value.key > object.broadband.upSpeed
                     );
                   });
                 }
@@ -130,7 +129,8 @@ app.post("/getproducts", (req, res) => {
               console.log("These are the skus:", skus);
               res
                 .send({
-                  availableSkus: skus,
+                  //availableSkus: skus,
+                  unavailablesSkus: skus,
                   isAvailable: true,
                   status: availability.servicePoints[0].kapany.status,
                   message: availability.servicePoints[0].salesDescription,
@@ -144,7 +144,7 @@ app.post("/getproducts", (req, res) => {
     );
   } else {
     res.send({
-      availableSkus: [],
+      unavailablesSkus: [],
       isAvailable: false,
       status: availability.servicePoints[0].kapany.status,
       message: availability.servicePoints[0].salesDescription,
