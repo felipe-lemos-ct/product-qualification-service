@@ -108,6 +108,8 @@ app.post("/getproducts", (req, res) => {
           )
             .then((response) => response.json())
             .then((response) => {
+              console.log("Check response 1");
+              console.log(JSON.stringify(response));
               response.results.map((result) => {
                 if (result.variants.length > 0) {
                   result.variants = result.variants.filter((variant) => {
@@ -118,7 +120,7 @@ app.post("/getproducts", (req, res) => {
                 }
               });
               let skus = [];
-              console.log("Check response");
+              console.log("Check response 2");
               console.log(JSON.stringify(response));
               response.results.map((result) => {
                 skus.push(result.masterVariant.sku);
