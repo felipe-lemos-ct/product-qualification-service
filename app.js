@@ -12,6 +12,8 @@ app.get("/", (req, res) => {});
 app.post("/address", (req, res) => {
   const { address, houseNumber, postalCode } = req.body;
 
+  console.log("smthing");
+
   let test = JSON.parse(
     fs.readFileSync(`./data/addreses.json`, (err, data) => {
       if (err) {
@@ -46,6 +48,7 @@ app.post("/getproducts", (req, res) => {
   let testCaseNumber = 0;
   let availability = "";
 
+  console.log("smthing");
   switch (addressId) {
     case "41213927":
       testCaseNumber = 1;
