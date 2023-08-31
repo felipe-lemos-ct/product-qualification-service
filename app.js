@@ -52,6 +52,8 @@ app.post("/getproducts", (req, res) => {
   let testCaseNumber = 0;
   let availability = "";
 
+  String(addressId);
+
   console.log("Address ID: ", addressId);
   switch (addressId) {
     case "41213927":
