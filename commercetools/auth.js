@@ -57,33 +57,37 @@ const getToken = group(() => {
     .then(saveToken);
 });
 export const fetchCt = (url, options = {}) => {
-  return getToken().then((token) => {
-    return fetch(`${config.apiHost}/${config.projectKey}/${url}`, {
-      ...options,
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    }).then(
-      (response) => {
-        if (response.status === 401) {
-          return refreshToken({
-            id: config.clientId,
-            secret: config.clientSecret,
-            scope: config.scope,
-            projectKey: config.projectKey,
-            authHost: config.authHost,
-          }).then(() => {
-            return fetchWithToken(url, options);
-          });
+  try {
+    return getToken().then((token) => {
+      return fetch(`${config.apiHost}/${config.projectKey}/${url}`, {
+        ...options,
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }).then(
+        (response) => {
+          if (response.status === 401) {
+            return refreshToken({
+              id: config.clientId,
+              secret: config.clientSecret,
+              scope: config.scope,
+              projectKey: config.projectKey,
+              authHost: config.authHost,
+            }).then(() => {
+              return fetchWithToken(url, options);
+            });
+          }
+          return response;
+        },
+        (error) => {
+          resetToken();
+          return Promise.reject(error);
         }
-        return response;
-      },
-      (error) => {
-        resetToken();
-        return Promise.reject(error);
-      }
-    );
-  });
+      );
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 const refreshToken = group((au) => {
   const auth = createAuth(au);
