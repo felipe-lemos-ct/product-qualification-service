@@ -108,7 +108,7 @@ app.post("/getproducts", (req, res) => {
           );
 
           fetchCt(
-            `product-projections/search?filter=variants.attributes.fiberBroadbandBandwidth.key:${lookupArray.toString()}`,
+            `product-projections/search?filter=variants.attributes.fiberBandwidth.key:${lookupArray.toString()}`,
             { method: "GET" }
           )
             .then((response) => response.json())
