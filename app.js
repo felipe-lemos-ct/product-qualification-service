@@ -47,6 +47,8 @@ app.post("/address", (req, res) => {
 
 app.post("/getproducts", (req, res) => {
   const { addressId } = req.body;
+  console.log("Got a call for getproducts");
+  console.log(addressId);
   let testCaseNumber = 0;
   let availability = "";
 
@@ -66,6 +68,7 @@ app.post("/getproducts", (req, res) => {
       break;
   }
 
+  console.log("Test Case Number is: ", testCaseNumber);
   console.log("I am running now!");
   //Check availability for the desired
   if (testCaseNumber != 0) {
