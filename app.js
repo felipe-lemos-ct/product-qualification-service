@@ -46,119 +46,123 @@ app.post("/address", (req, res) => {
 });
 
 app.post("/getproducts", (req, res) => {
-  const { addressId } = req.body;
-  console.log("Got a call for getproducts");
-  console.log(addressId);
-  let testCaseNumber = 0;
-  let availability = "";
+  try {
+    const { addressId } = req.body;
+    console.log("Got a call for getproducts");
+    console.log(addressId);
+    let testCaseNumber = 0;
+    let availability = "";
 
-  String(addressId);
+    String(addressId);
 
-  console.log("Address ID: ", addressId);
-  switch (addressId) {
-    case "41213927":
-      testCaseNumber = 1;
-      break;
-    case "41212756":
-      testCaseNumber = 2;
-      break;
-    case "41212753":
-      testCaseNumber = 3;
-      break;
-    default:
-      testCaseNumber = 0;
-      break;
-  }
+    console.log("Address ID: ", addressId);
+    switch (addressId) {
+      case "41213927":
+        testCaseNumber = 1;
+        break;
+      case "41212756":
+        testCaseNumber = 2;
+        break;
+      case "41212753":
+        testCaseNumber = 3;
+        break;
+      default:
+        testCaseNumber = 0;
+        break;
+    }
 
-  console.log("Test Case Number is: ", testCaseNumber);
-  console.log("I am running now!");
-  //Check availability for the desired
-  if (testCaseNumber != 0) {
-    availability = JSON.parse(
-      fs.readFileSync(
-        `./data/TestCase${testCaseNumber}_API-Availability.json`,
+    console.log("Test Case Number is: ", testCaseNumber);
+    console.log("I am running now!");
+    //Check availability for the desired
+    if (testCaseNumber != 0) {
+      availability = JSON.parse(
+        fs.readFileSync(
+          `./data/TestCase${testCaseNumber}_API-Availability.json`,
+          (err, data) => {
+            if (err) {
+              console.log("Error reading file from disk:", err);
+              return "error";
+            } else {
+              let obj = JSON.parse(data);
+              return {
+                availableSkus: [],
+                isAvailable: false,
+                status: obj.servicePoints[0].kapany.status,
+                message: obj.servicePoints[0].salesDescription,
+              };
+            }
+          }
+        )
+      );
+    }
+
+    let bandwidthArray = ["50", "100", "250", "500", "1000"];
+    let lookupArray = [];
+
+    if (availability.servicePoints[0].kapany.status === "ACTIVE") {
+      fs.readFile(
+        `./data/TestCase${testCaseNumber}_API-Feasibility.json`,
         (err, data) => {
           if (err) {
             console.log("Error reading file from disk:", err);
-            return "error";
-          } else {
-            let obj = JSON.parse(data);
-            return {
-              availableSkus: [],
-              isAvailable: false,
-              status: obj.servicePoints[0].kapany.status,
-              message: obj.servicePoints[0].salesDescription,
-            };
+            return;
+          }
+          try {
+            let object = JSON.parse(data);
+            lookupArray = bandwidthArray.filter(
+              (bdwidth) => bdwidth <= object.broadband.upSpeed
+            );
+
+            fetchCt(
+              `product-projections/search?filter=variants.attributes.fiberBandwidth.key:${lookupArray.toString()}`,
+              { method: "GET" }
+            )
+              .then((response) => response.json())
+              .then((response) => {
+                response.results.map((result) => {
+                  if (result.variants.length > 0) {
+                    result.variants = result.variants.filter((variant) => {
+                      return (
+                        variant.attributes[0].value.key <=
+                        object.broadband.upSpeed
+                      );
+                    });
+                  }
+                });
+                let skus = [];
+                response.results.map((result) => {
+                  skus.push(result.masterVariant.sku);
+                  if (result.variants.length > 0) {
+                    result.variants.map((variant) => {
+                      skus.push(variant.sku);
+                    });
+                  }
+                });
+                console.log("These are the skus:", skus);
+                res
+                  .send({
+                    availableSkus: skus,
+                    isAvailable: true,
+                    status: availability.servicePoints[0].kapany.status,
+                    message: availability.servicePoints[0].salesDescription,
+                  })
+                  .status(200);
+              });
+          } catch (err) {
+            console.log("Error parsing JSON string:", err);
           }
         }
-      )
-    );
-  }
-
-  let bandwidthArray = ["50", "100", "250", "500", "1000"];
-  let lookupArray = [];
-
-  if (availability.servicePoints[0].kapany.status === "ACTIVE") {
-    fs.readFile(
-      `./data/TestCase${testCaseNumber}_API-Feasibility.json`,
-      (err, data) => {
-        if (err) {
-          console.log("Error reading file from disk:", err);
-          return;
-        }
-        try {
-          let object = JSON.parse(data);
-          lookupArray = bandwidthArray.filter(
-            (bdwidth) => bdwidth <= object.broadband.upSpeed
-          );
-
-          fetchCt(
-            `product-projections/search?filter=variants.attributes.fiberBandwidth.key:${lookupArray.toString()}`,
-            { method: "GET" }
-          )
-            .then((response) => response.json())
-            .then((response) => {
-              response.results.map((result) => {
-                if (result.variants.length > 0) {
-                  result.variants = result.variants.filter((variant) => {
-                    return (
-                      variant.attributes[0].value.key <=
-                      object.broadband.upSpeed
-                    );
-                  });
-                }
-              });
-              let skus = [];
-              response.results.map((result) => {
-                skus.push(result.masterVariant.sku);
-                if (result.variants.length > 0) {
-                  result.variants.map((variant) => {
-                    skus.push(variant.sku);
-                  });
-                }
-              });
-              console.log("These are the skus:", skus);
-              res
-                .send({
-                  availableSkus: skus,
-                  isAvailable: true,
-                  status: availability.servicePoints[0].kapany.status,
-                  message: availability.servicePoints[0].salesDescription,
-                })
-                .status(200);
-            });
-        } catch (err) {
-          console.log("Error parsing JSON string:", err);
-        }
-      }
-    );
-  } else {
-    res.send({
-      availableSkus: [],
-      isAvailable: false,
-      status: availability.servicePoints[0].kapany.status,
-      message: availability.servicePoints[0].salesDescription,
-    });
+      );
+    } else {
+      res.send({
+        availableSkus: [],
+        isAvailable: false,
+        status: availability.servicePoints[0].kapany.status,
+        message: availability.servicePoints[0].salesDescription,
+      });
+    }
+  } catch (err) {
+    console.log(err);
   }
 });
 app.listen(PORT, () => {
